@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaiten Gourmet | Premium Menu</title>
+    <link rel="icon" type="image/png" href="Img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Poppins:wght@300;400;600&family=Cinzel:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --wood-dark: #3e2723;
+            --wood-light: #5d4037;
+            --bg-dark: #2c3e50;
+            --accent: #800000; /* Deep Red */
+            --gold: #f1c40f;
+            --glass-dark: rgba(0, 0, 0, 0.75);
+            --glass-border: 1px solid rgba(241, 196, 15, 0.3);
+            --ribbon-height: 110px;
+            --wheel-size: 100vh; 
+        }
+
+body {
+    margin: 0; 
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    
+    background-color: #e1f5fe; 
+    
+    background-image: 
+        radial-gradient(circle at 100% 150%, #0288d1 24%, #4fc3f7 25%, #4fc3f7 28%, #0288d1 29%, #0288d1 36%, #4fc3f7 36%, #4fc3f7 40%, transparent 40%, transparent),
+        radial-gradient(circle at 0 150%,    #0288d1 24%, #4fc3f7 25%, #4fc3f7 28%, #0288d1 29%, #0288d1 36%, #4fc3f7 36%, #4fc3f7 40%, transparent 40%, transparent);
+    
+    background-size: 100px 50px;
+    color: #2c3e50; 
+    
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+        /* --- BACKGROUND DECORATION --- */
+        .deco-circle {
+            position: absolute;
+            width: 70vh; height: 70vh;
+            background: var(--gold);
+            border-radius: 50%;
+            top: -10%; right: -10%;
+            opacity: 0.05; z-index: -1;
+            filter: blur(80px);
+        }
+
+        .big-bg-text {
+            position: absolute;
+            top: 55%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-size: 18vw;
+            color: rgba(255,255,255,0.03);
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+        }
+
+        /* --- HEADER / RIBBON --- */
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--ribbon-height);
+            background-color: var(--accent);
+            border-bottom: 4px solid #5a1a15;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; box-sizing: border-box;
+            z-index: 100;
+        }
+
+        .ribbon-left-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;           
+            background: transparent; 
+            pointer-events: none;   
+            z-index: 1;             
+        }
+
+        .text-ticker-wrap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;            
+            height: 36px; 
+            background: white; 
+            border-bottom: 2px solid var(--gold); 
+            display: flex; align-items: center; 
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        .slideshow-wrap { 
+            position: absolute;
+            bottom: 0;              
+            left: 50%;              
+            transform: translateX(-50%); 
+            width: 700px;           
+            height: 65px;           
+            background: #222; 
+            overflow: hidden; 
+            pointer-events: auto;   
+            border-bottom: none;    
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+            z-index: 2;
+            border-left: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+            border-top: 2px solid var(--gold);
+        }
+
+        /* ANIMATIONS */
+        .text-track { display: flex; white-space: nowrap; animation: scroll-left 25s linear infinite; }
+        .ticker-item {
+            color: #333; font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 700; font-size: 12px; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-right: 50px; display: flex; align-items: center; gap: 8px;
+        }
+        .ticker-item i { color: var(--accent); }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .slideshow-track { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .slide-item { min-width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
+
+        /* CENTER: LOGO */
+        .ribbon-center-hub {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            display: flex; flex-direction: column; align-items: center;
+            height: 100%; z-index: 20; pointer-events: none;
+        }
+        .ribbon-center-hub > * { pointer-events: auto; }
+
+        .logo-plaque {
+            background: #2c3e50; border: 2px solid var(--gold); border-top: none;
+            padding: 5px 30px 10px 30px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); text-align: center;
+            margin-bottom: -10px; display: flex; flex-direction: column; align-items: center;
+        }
+        .brand-logo {
+            font-family: 'Noto Serif JP', serif; font-size: 16px; letter-spacing: 4px; color: white;
+            font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.5); white-space: nowrap; margin-bottom: 2px;
+        }
+
+       .ribbon-right { 
+            display: flex; gap: 15px; flex: 1; justify-content: flex-end; align-items: flex-end;
+            padding-bottom: 12px;
+            height: 100%;
+            position: relative; 
+            z-index: 20;        
+        }
+
+        .back-pill {
+            background: rgba(0,0,0,0.3); color: #fff;
+            padding: 8px 20px; border-radius: 4px;
+            font-weight: 600; cursor: pointer; border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.3s; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .back-pill:hover { background: white; color: var(--accent); }
+
+        .cart-btn {
+            position: relative; width: 45px; height: 45px; 
+            background: var(--wood-dark); border: 2px solid var(--gold);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 18px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.3s; color: var(--gold);
+        }
+        .cart-btn:hover { transform: scale(1.1); background: var(--gold); color: var(--wood-dark); }
+        
+        .cart-count {
+            position: absolute; top: -5px; right: -5px; 
+            background: red; color: white; border: 2px solid white;
+            font-size: 10px; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-weight: bold;
+            opacity: 0; transition: 0.3s;
+        }
+        .cart-count.show { opacity: 1; }
+
+        /* --- CATEGORIES --- */
+        .category-tabs {
+            position: absolute; top: calc(var(--ribbon-height) + 20px); 
+            left: 50%; transform: translateX(-50%);
+            z-index: 50; display: flex; gap: 15px;
+        }
+
+        .cat-item {
+            padding: 10px 30px; border-radius: 2px; cursor: pointer;
+            font-family: 'Noto Serif JP', serif;
+            font-weight: 600; font-size: 14px; transition: 0.3s;
+            color: #ffffff; border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.5); text-transform: uppercase; letter-spacing: 1px;
+        }
+        .cat-item.active { 
+            background: var(--gold); color: var(--wood-dark); 
+            border-color: var(--gold); box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-stage {
+            flex-grow: 1; position: relative; width: 100%;
+            overflow: hidden; 
+        }
+
+        /* --- THE WHEEL --- */
+        .wheel-container {
+            position: absolute;
+            bottom: -50vh; 
+            left: 50%;
+            width: var(--wheel-size); height: var(--wheel-size);
+            transform: translateX(-50%); 
+            z-index: 10;
+        }
+
+        .wheel {
+            position: relative; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px dashed rgba(241, 196, 15, 0.3); 
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: rotate(var(--rotate, 0deg));
+        }
+
+        .wheel::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 15%; height: 15%;
+            background: radial-gradient(circle, var(--wood-light), var(--wood-dark));
+            border: 4px solid var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 0 10px rgba(0,0,0,0.3);
+            z-index: -1;
+        }
+
+        .wheel-item {
+            position: absolute; top: 50%; left: 50%;
+            transform-origin: 0 0; 
+            transform: rotate(calc(360deg / var(--total) * var(--i))) translateY(calc(-1 * var(--wheel-size) / 2));
+            width: 0; height: 0; 
+        }
+
+        .wheel-item img {
+            width: 250px; height: 250px;
+            border-radius: 50%; object-fit: cover;
+            transform: translate(-50%, -50%) rotate(calc(-360deg / var(--total) * var(--i) - var(--rotate, 0deg))); 
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+            border: 5px solid white;
+            cursor: pointer;
+        }
+        .wheel-item img:hover { filter: brightness(1.1); border-color: var(--gold); width: 270px; height: 270px; z-index: 100;}
+
+        /* --- INFO CARD --- */
+        .info-card {
+            position: absolute;
+            top: 50%; right: 5%; transform: translateY(-60%);
+            width: 350px;
+            background: var(--glass-dark);
+            backdrop-filter: blur(15px);
+            border: var(--glass-border);
+            border-left: 5px solid var(--gold);
+            border-radius: 0 20px 20px 0;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 20;
+            transition: opacity 0.3s;
+        }
+
+        .info-card h1 { 
+            font-family: 'Noto Serif JP', serif; 
+            margin: 0 0 10px 0; font-size: 38px; line-height: 1.1; 
+            color: white; border-bottom: 1px solid #555; padding-bottom: 10px;
+        }
+        .info-card .price { font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 15px; display: block; font-family: 'Cinzel', serif;}
+        .info-card p { font-size: 14px; line-height: 1.6; color: #ccc; margin-bottom: 25px; min-height: 50px; font-weight: 300;}
+
+        .add-btn {
+            width: 100%; padding: 15px; border: none; border-radius: 4px;
+            background: linear-gradient(to right, var(--wood-dark), #222); 
+            color: var(--gold); font-weight: 600; border: 1px solid var(--gold);
+            cursor: pointer; transition: 0.3s; display: flex; justify-content: space-between; padding: 18px 25px;
+            font-family: 'Poppins'; text-transform: uppercase; letter-spacing: 1px; font-size: 16px;
+        }
+        .add-btn:hover { background: var(--gold); color: #000; transform: translateY(-2px); box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
+
+        /* --- CONTROLS --- */
+        .nav-controls {
+            position: absolute; bottom: 50px; right: 8%; width: 350px;
+            display: flex; justify-content: center; gap: 20px; z-index: 25;
+        }
+        .nav-btn {
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #444;
+            background: rgba(0,0,0,0.5); color: white; font-size: 18px;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn:hover { border-color: var(--gold); color: var(--gold); background: #222; }
+
+        /* --- CART SIDEBAR --- */
+        .sidebar {
+            position: fixed; top: 0; right: -400px; width: 360px; height: 100vh;
+            background: #f5f5f5; /* Receipt Paper Color */
+            z-index: 200; transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -10px 0 50px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+            padding: 30px; box-sizing: border-box; color: #333;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 19px, #e5e5e5 20px);
+        }
+        .sidebar.active { right: 0; }
+        
+        .cart-items { flex-grow: 1; overflow-y: auto; margin: 20px 0; }
+        .cart-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #aaa; }
+        .cart-row img { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; border: 1px solid #ccc; }
+        .checkout-btn { 
+            width: 100%; background: var(--accent); color: white; 
+            padding: 15px; border: none; border-radius: 4px; 
+            font-weight: bold; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1200px) {
+            :root { --wheel-size: 80vh; }
+            .info-card { width: 280px; padding: 20px; right: 20px; }
+            .wheel-item img { width: 220px; height: 220px; }
+            .ribbon-left-container { margin-right: 200px; }
+        }
+
+        @media (max-width: 900px) {
+            :root { --wheel-size: 70vh; --ribbon-height: 80px; } 
+            
+            /* Move Wheel Up */
+            .wheel-container { top: 35%; bottom: auto; }
+            .wheel-item img { width: 160px; height: 160px; }
+            
+            /* Move Card Down */
+            .info-card {
+                top: auto; 
+                bottom: 30px;     
+                left: 10px;         
+                right: 10px;        
+                width: auto; 
+                transform: none;
+                border-radius: 20px; 
+                border-left: none; 
+                border-top: 5px solid var(--gold);
+                box-sizing: border-box;
+                display: flex; flex-direction: column; justify-content: center;
+                height: auto;       
+                min-height: 35vh;   
+                padding-bottom: 30px;
+                background: rgba(10,10,10,0.95);
+                margin-bottom: 20px; 
+            }
+            .info-card h1 { font-size: 24px; margin-bottom: 5px; }
+            .info-card p { margin-bottom: 15px; min-height: auto; font-size: 12px; }
+            
+            .nav-controls {
+                bottom: 37vh; 
+                right: 50%; transform: translateX(50%);
+                width: auto;
+            }
+            .big-bg-text { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --ribbon-height: 100px; /* Taller header for mobile stack */
+            }
+
+            /* MOBILE FIX */
+           .ribbon-left-container {
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                transform: none;
+                width: 100%; height: 25px;
+                margin: 0;
+                
+                background: white; 
+                
+                z-index: 1001;
+            }
+
+            .slideshow-wrap { display: none; }
+            .text-ticker-wrap { height: 25px; border: none; }
+            .ticker-item { font-size: 10px; } 
+
+            /* HEADER ADJUSTMENTS */
+            header {
+                padding-top: 25px; 
+                align-items: flex-start;
+                padding-left: 0; padding-right: 0;
+            }
+
+            /* CENTER HUB (Logo) */
+            .ribbon-center-hub {
+                position: absolute;
+                left: 0; top: 25px; 
+                width: 100%; height: auto;
+                transform: none;
+                flex-direction: row; 
+                align-items: flex-start;
+                justify-content: flex-start;
+                pointer-events: none; 
+            }
+
+            .logo-plaque {
+                border-radius: 0 0 10px 0;
+                padding: 5px 15px;
+                background: rgba(0,0,0,0.1);
+                border: none;
+                box-shadow: none;
+                pointer-events: auto;
+            }
+            .brand-logo { font-size: 14px; letter-spacing: 1px; }
+
+            /* control */
+           .ribbon-right {
+                position: absolute;
+                right: 10px; top: 60px; 
+                transform: translateY(-50%);
+                gap: 8px;
+                height: auto;
+                
+                /* CRITICAL: Resets the "lowered" desktop look for mobile */
+                align-items: center; 
+                padding-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+             :root { --wheel-size: 65vh; }
+             .wheel-container { top: 35%; }
+             .wheel-item img { width: 130px; height: 130px; border-width: 2px;}
+             .cat-item { padding: 8px 15px; font-size: 11px; }
+             .category-tabs { width: 100%; justify-content: center; gap: 5px; }
+             
+             .sidebar {
+                 width: 100%;     
+                 right: -100%;      
+                 padding-bottom: 120px;
+             }
+             .sidebar.active { right: 0; }
+        }
+
+        #ice-option-wrap label {
+            color: white !important; 
+            font-size: 16px !important;
+            padding: 10px 0;
+        }
+
+.minimal-footer {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2); /* Very faint white */
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1.5px;
+    z-index: 5; /* Lower than your sidebar and modals */
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #2ecc71;
+    border-radius: 50%;
+    margin-right: 5px;
+    box-shadow: 0 0 5px #2ecc71;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="deco-circle"></div>
+    <div class="big-bg-text" id="bg-text">Sushi</div>
+
+    <header>
+        <div class="ribbon-left-container">
+            <div class="text-ticker-wrap">
+                <div class="text-track">
+                    <span class="ticker-item"><i class="fas fa-bullhorn"></i> 50% OFF SALMON</span>
+                    <span class="ticker-item"><i class="fas fa-fire"></i> NEW: SPICY TUNA</span>
+                    <span class="ticker-item"><i class="fas fa-beer"></i> HAPPY HOUR 2-5PM</span>
+                    <span class="ticker-item"><i class="fas fa-star"></i> PREMIUM WAGYU</span>
+                    <span class="ticker-item"><i class="fas fa-beer"></i> FRESH FISH</span>
+                    <span class="ticker-item"><i class="fas fa-beer"></i> APPROVED BY JAKIM</span>
+                    <span class="ticker-item"><i class="fas fa-beer"></i> AUTHENTIC SUSHI</span>
+                </div>
+            </div>
+            <div class="slideshow-wrap">
+                <div class="slideshow-track" id="slideTrack">
+                    <img class="slide-item" src="Img/promo1.png" alt="Promo">
+                    <img class="slide-item" src="Img/promo2.png" alt="Promo">
+                    <img class="slide-item" src="Img/promo4.png" alt="Promo">
+                </div>
+            </div>
+        </div>
+
+        <div class="ribbon-center-hub">
+            <div class="logo-plaque">
+                <div class="brand-logo">KAITEN</div>
+            </div>
+        </div>
+
+        <div class="ribbon-right">
+            <div class="back-pill" onclick="backToTable()">
+                <i class="fas fa-arrow-left"></i> Table
+            </div>
+            <div class="cart-btn" onclick="toggleCart()">
+                <i class="fas fa-clipboard-list"></i>
+                <span class="cart-count" id="cart-badge">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="category-tabs">
+        <button class="cat-item active" onclick="setCategory('sushi')">Main</button>
+        <button class="cat-item" onclick="setCategory('sashimi')">Side</button>
+        <button class="cat-item" onclick="setCategory('drinks')">Drinks/Dessert</button>
+    </div>
+
+    <div class="main-stage">
+        <div class="wheel-container">
+            <div class="wheel" id="wheel">
+                </div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="rotateWheel(1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn" onclick="rotateWheel(-1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="info-card" id="info-card">
+            <div>
+                <h1 id="food-title">Loading...</h1>
+                <span class="price" id="food-price">--</span>
+                <p id="food-desc">Select an item to view details.</p>
+            </div>
+
+            <div id="temp-option-wrap" style="display:none; margin-bottom: 20px;">
+    <div style="display: flex; gap: 20px; font-family: 'Poppins'; color: var(--gold); font-size: 14px; font-weight: 600;">
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <input type="radio" name="temp_pref" value="Hot" style="accent-color: var(--gold); width: 16px; height: 16px;">
+            <span>Hot <i class="fas fa-fire" style="color:#e74c3c"></i></span>
+        </label>
+
+        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+            <input type="radio" name="temp_pref" value="Cold" checked style="accent-color: var(--gold); width: 16px; height: 16px;">
+            <span>Cold <i class="fas fa-snowflake" style="color:#3498db"></i></span>
+        </label>
+    </div>
+</div>
+
+            <button class="add-btn" onclick="addToOrder()">
+                <span>Order Now</span>
+                <i class="fas fa-utensils"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="sidebar" id="cart-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #333; padding-bottom:10px;">
+            <h2 style="font-family:'VT323', monospace; margin:0; font-size:28px;">Order List</h2>
+            <button onclick="toggleCart()" style="background:none; border:none; font-size:24px; cursor:pointer">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-list">
+            </div>
+        <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-weight:bold; font-size:18px; font-family:'VT323', monospace;">
+                <span>TOTAL</span>
+                <span id="cart-total">RM0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="backToTable()">Return to Table</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        const API_URL = 'api.php'; 
+
+        // --- DATA ---
+        const menu = {
+            sushi: [
+                { name: "Japanese Curry Rice", price: 15.50, img: "Img/main1.png", desc: "Potatoes, carrots, and onions in a rich curry sauce served over rice." },
+                { name: "Chicken Katsu", price: 12.00, img: "Img/main2.png", desc: "Golden fried chicken cutlet, breaded to perfection. Served on warm rice with tangy tonkatsu sauce." },
+                { name: "Salmon Sashimi", price: 18.00, img: "Img/main3.png", desc: " Fresh, sliced chilled salmon fillets served with a ginger-based dressing, topped with sesame seeds and rice." },
+                { name: "Bowl of Chirashi Sushi", price: 22.00, img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=500&q=80", desc: "Spicy minced tuna wrapped in crisp nori seaweed." },
+                { name: "Oyako Don", price: 20.99, img: "Img/oyako.png", desc: "Juicy chicken and sweet onions simmered in a soy-dashi sauce and finished with fluffy, lightly cooked eggs." },
+                { name: "Shoyu Ramen", price: 19.00, img: "Img/main4.png", desc: "Soy sauce ramen with savoury beef broth, corn and bean sprouts." },
+                
+            ],
+            sashimi: [
+                { name: "Miso Soup", price: 6.00, img: "Img/side1.png", desc: "A warm broth made from fermented soybean paste with tofu, seaweed, and green onions." },
+                { name: "Edamame", price: 4.00, img: "Img/side2.png", desc: "Fresh edamame served with a sprinkle of sea salt." },
+                { name: "Sunomono Salad", price: 10.00, img: "Img/side3.png", desc: "A refreshing Japanese salad made with cucumber, carrots, and a tangy dressing." },
+                { name: "Japanese Potato Salad", price: 9.00, img: "Img/potato.png", desc: "A creamy, mashed salad with Japanese mayo, cucumber, and carrots." },
+                { name: "Crispy Fried Gyoza", price: 10.00, img: "Img/gyoza.png", desc: "Golden-brown chicken dumplings pan-fried to a perfect crisp. Served with a zesty carrot and cabbage slaw and topped with fresh greens." }
+            ],
+            drinks: [
+                { name: "Matcha Latte", price: 7.00, img: "Img/drink1.png", desc: "Ceremonial grade matcha with steamed milk infused with latte." },
+                { name: "Royal Milk Tea", price: 5.00, img: "Img/drink2.png", desc: "A rich, indulgent drink made by boiling black tea leaves directly in milk and adding sugar." },
+                { name: "Yuzu Lemon", price: 5.00, img: "Img/drink4.png", desc: "Refreshing Yuzu Lemon imported from Japan." },
+                { name: "Mugi-cha", price: 5.00, img: "Img/mugicha.png", desc: "A caffeine-free, nutty tea that is very refreshing." },
+                { name: "Wassabi Ice Cream", price: 8.00, img: "Img/icecream.png", desc: "Creamy Wassabi ice cream with a unique spicy kick." },
+                { name: "Taiyaki", price: 5.00, img: "Img/taiyaki.png", desc: "A classic fish-shaped cake made from a pancake-like batte." }
+            ]
+        };
+
+        // --- STATE ---
+        let currentCat = 'sushi';
+        let currentIndex = 0; // The item currently at the "top" (visually)
+        let currentRotation = 0; // Global rotation in degrees
+        let tableId = sessionStorage.getItem('kaiten_active_table') || "Table-1";
+        // Clean the ID immediately for API use
+        let cleanTableId = tableId.replace(/\D/g, ''); 
+
+        // --- DOM ---
+        const wheel = document.getElementById('wheel');
+        const titleEl = document.getElementById('food-title');
+        const priceEl = document.getElementById('food-price');
+        const descEl = document.getElementById('food-desc');
+        const bgText = document.getElementById('bg-text');
+
+        function init() {
+            setCategory('sushi');
+            updateCartUI();
+            
+            // --- SLIDESHOW LOGIC ---
+            let currentSlide = 0;
+            const slideTrack = document.getElementById('slideTrack');
+            const slides = document.querySelectorAll('.slide-item');
+            if(slides.length > 0) {
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slideTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }, 4500);
+            }
+        }
+
+        // --- MOVED THIS OUTSIDE INIT() SO IT WORKS ---
+        function updateCartUI() {
+            let cart = JSON.parse(sessionStorage.getItem('kaiten_cart') || "[]");
+            document.getElementById('cart-badge').innerText = cart.length;
+            document.getElementById('cart-badge').classList.toggle('show', cart.length > 0);
+
+            let html = '';
+            let total = 0;
+            
+            // We loop through the cart to create the list
+            [...cart].reverse().forEach(item => {
+                total += item.price;
+                html += `
+                    <div class="cart-row">
+                        <img src="${item.img}">
+                        <div style="flex-grow:1">
+                            <div style="font-weight:600; font-family:'Noto Serif JP'">${item.name}</div>
+                            <div style="color:#555; font-size:14px; font-family:'VT323'">RM${item.price.toFixed(2)}</div>
+                        </div>
+                        
+                        <button onclick="removeFromCart(${item.id})" style="background:transparent; border:none; color:#c0392b; font-size:16px; cursor:pointer; padding:5px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('cart-list').innerHTML = html || "<p style='text-align:center; color:#999; font-family:monospace'>Cart is empty</p>";
+            document.getElementById('cart-total').innerText = `RM${total.toFixed(2)}`;
+        }
+
+        function setCategory(cat) {
+            currentCat = cat;
+            currentIndex = 0;
+            currentRotation = 0; // Reset rotation visual
+            
+            // Update Active Tab
+            document.querySelectorAll('.cat-item').forEach(b => {
+                b.classList.toggle('active', b.innerText.toLowerCase() === cat);
+            });
+
+            // Update Background Text
+            bgText.innerText = cat.charAt(0).toUpperCase() + cat.slice(1);
+            
+            // Build Wheel
+            renderWheel();
+            updateCard();
+        }
+
+        function renderWheel() {
+            const items = menu[currentCat];
+            const total = items.length;
+            let html = '';
+
+            items.forEach((item, index) => {
+                html += `
+                    <div class="wheel-item" style="--i:${index}; --total:${total}">
+                        <img src="${item.img}" alt="${item.name}" onclick="rotateTo(${index})">
+                    </div>
+                `;
+            });
+
+            wheel.innerHTML = html;
+            wheel.style.setProperty('--rotate', `0deg`);
+        }
+
+        // --- ROTATION LOGIC ---
+        function rotateWheel(direction) {
+            // Direction: 1 (Left/Prev), -1 (Right/Next)
+            const items = menu[currentCat];
+            const anglePerItem = 360 / items.length;
+
+            currentIndex -= direction; // Move index
+            currentRotation += (direction * anglePerItem); // Move degrees
+
+            applyRotation();
+        }
+
+        function rotateTo(clickedIndex) {
+            // Find shortest path to clicked item
+            const items = menu[currentCat];
+            const total = items.length;
+            
+            // Normalize current index to 0...total-1
+            let effectiveCurrent = ((currentIndex % total) + total) % total;
+            
+            let diff = clickedIndex - effectiveCurrent;
+            
+            // Optimize path (go shortest way around circle)
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+
+            currentIndex += diff;
+            currentRotation -= (diff * (360 / total));
+            
+            applyRotation();
+        }
+
+        function applyRotation() {
+            // Rotate the Container
+            wheel.style.setProperty('--rotate', `${currentRotation}deg`);
+            // Add slight delay to card update for visual effect
+            setTimeout(updateCard, 100);
+        }
+
+        // --- ORDERING LOGIC ---
+        async function addToOrder() {
+            const items = menu[currentCat];
+            const activeItemIndex = ((currentIndex % items.length) + items.length) % items.length;
+            const item = items[activeItemIndex];
+
+            // FIXED: Temp/Ice option logic
+            let finalName = item.name;
+            const tempWrap = document.getElementById('temp-option-wrap');
+
+            // If the option is visible, check which radio button is selected
+            if (tempWrap && tempWrap.style.display !== 'none') {
+                const selectedTemp = document.querySelector('input[name="temp_pref"]:checked');
+                if (selectedTemp) {
+                    finalName += ` (${selectedTemp.value})`;
+                }
+            }
+
+            // Use clean ID for the order object
+            const orderItem = {
+                id: Date.now(),
+                name: finalName,
+                price: item.price,
+                img: item.img,
+                table: cleanTableId 
+            };
+
+            // 1. Session Storage (Cart UI)
+            let cart = JSON.parse(sessionStorage.getItem('kaiten_cart') || "[]");
+            cart.push(orderItem);
+            sessionStorage.setItem('kaiten_cart', JSON.stringify(cart));
+
+            // 2. Local Storage (Kitchen/Chef)
+            localStorage.setItem('kaiten_sushi_order', JSON.stringify(orderItem));
+
+            // 3. SEND TO SERVER
+            try {
+                await fetch(`${API_URL}?action=order_from_menu`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(orderItem)
+                });
+            } catch (e) {
+                console.error("Error sending order to chef:", e);
+            }
+
+            updateCartUI();
+
+            // Button Feedback
+            const btn = document.querySelector('.add-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<span>Sent!</span> <i class="fas fa-check"></i>`;
+            btn.style.background = "#fff";
+            btn.style.color = "#c0392b";
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.background = "";
+                btn.style.color = "";
+            }, 1000);
+        }
+
+        function updateCard() {
+            const items = menu[currentCat];
+            const activeItemIndex = ((currentIndex % items.length) + items.length) % items.length;    
+            const item = items[activeItemIndex];
+            
+            document.getElementById('food-title').innerText = item.name;
+            document.getElementById('food-price').innerText = `RM${item.price.toFixed(2)}`;
+            document.getElementById('food-desc').innerText = item.desc;
+
+            // --- UPDATED: HOT/COLD OPTION LOGIC ---
+            const tempWrap = document.getElementById('temp-option-wrap');
+            
+            const isDrinkCat = currentCat === 'drinks';
+            const nameLower = item.name.toLowerCase();
+            
+            // Exclude items that shouldn't have Hot/Cold options
+            const isIceCream = nameLower.includes('ice cream');
+            const isTaiyaki = nameLower.includes('taiyaki'); 
+
+            // Show only if it's the Drink category, AND NOT Ice Cream, AND NOT Taiyaki
+            if (isDrinkCat && !isIceCream && !isTaiyaki) {
+                tempWrap.style.display = 'block';
+            } else {
+                tempWrap.style.display = 'none';
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('active');
+        }
+
+        function backToTable() {
+            window.location.href = `customer.html?table=${cleanTableId}`;
+        }
+        
+        function removeFromCart(itemId) {
+            let cart = JSON.parse(sessionStorage.getItem('kaiten_cart') || "[]");
+            
+            cart = cart.filter(item => item.id !== itemId);
+            
+            sessionStorage.setItem('kaiten_cart', JSON.stringify(cart));
+            
+            updateCartUI();
+        }
+
+        window.onload = init;
+    </script>
+    <div class="minimal-footer">
+    <span class="status-dot"></span>&copy;This website is created 
+    to fulfill the requirement of IMD318 Group Assignment.
+</div>
+
+</body>
+</html>

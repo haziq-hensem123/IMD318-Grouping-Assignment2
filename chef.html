@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaiten Chef | Master Control</title>
+    <link rel="icon" type="image/png" href="Img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); /* receipt */
+
+        body { background: #222; color: white; font-family: sans-serif; display: flex; gap: 20px; padding: 20px; }
+        .panel { background: #333; padding: 20px; border-radius: 10px; flex: 1; }
+        
+        .panel.danger { border: 1px solid #c0392b; max-width: 250px; }
+        
+        h2 { border-bottom: 2px solid #800000; padding-bottom: 10px; color: #f1c40f; margin-top: 0; }
+        
+        .sushi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .sushi-btn {
+            padding: 15px; background: #444; border: none; color: white; cursor: pointer;
+            text-align: left; display: flex; align-items: center; gap: 10px;
+            transition: 0.2s;
+        }
+        .sushi-btn:hover { background: #800000; }
+        .sushi-btn img { width: 40px; height: 40px; object-fit: contain; }
+
+        /* billing receipt*/
+        .bill-card { 
+            background: #fff; 
+            color: #000; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            font-family: 'VT323', monospace; 
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .bill-card::after {
+            content: ""; position: absolute; bottom: -5px; left: 0; width: 100%; height: 10px;
+            background: linear-gradient(135deg, transparent 5px, #fff 5px) left bottom,
+                        linear-gradient(-135deg, transparent 5px, #fff 5px) left bottom;
+            background-repeat: repeat-x;
+            background-size: 10px 10px;
+        }
+
+        .bill-header { 
+            font-weight: bold; font-size: 22px; 
+            display: flex; justify-content: space-between; 
+            border-bottom: 2px dashed #000; padding-bottom: 5px; margin-bottom: 10px;
+        }
+        .bill-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .bill-total { 
+            border-top: 2px dashed #000; 
+            font-weight: bold; font-size: 24px; 
+            text-align: right; margin-top: 10px; padding-top: 5px; 
+        }
+
+
+        .reset-btn {
+            width: 100%; padding: 20px; background: #c0392b; color: white; font-size: 16px;
+            border: none; cursor: pointer; font-weight: bold; margin-top: 10px; border-radius: 5px;
+        }
+        .reset-btn:hover { background: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <h2><i class="fas fa-utensils"></i> KITCHEN</h2>
+        <div class="sushi-grid">
+            <button class="sushi-btn" onclick="addSushi('Salmon Nigiri', 6.00, 'blue', 'Img/sushi1.png')">
+                <img src="Img/sushi1.png"> <div>Salmon<br><small>RM 6.00</small></div>
+            </button>
+            <button class="sushi-btn" onclick="addSushi('Tuna Maki', 8.00, 'red', 'Img/sushi2.png')">
+                <img src="Img/sushi2.png"> <div>Tuna<br><small>RM 8.00</small></div>
+            </button>
+            <button class="sushi-btn" onclick="addSushi('Tamago', 4.00, 'blue', 'Img/sushi3.png')">
+                <img src="Img/sushi3.png"> <div>Tamago<br><small>RM 4.00</small></div>
+            </button>
+            <button class="sushi-btn" onclick="addSushi('Wagyu Special', 18.00, 'gold', 'Img/sushi4.png')">
+                <img src="Img/sushi4.png"> <div>Wagyu<br><small>RM 18.00</small></div>
+            </button>
+        </div>
+        <div id="status" style="margin-top: 20px; color: #aaa;">Ready to cook.</div>
+    </div>
+
+    <div class="panel">
+        <h2><i class="fas fa-file-invoice-dollar"></i> ACTIVE BILLS</h2>
+        <div id="bills-container"></div>
+    </div>
+
+    <div class="panel danger">
+        <h2 style="color:#e74c3c; border-color:#c0392b"><i class="fas fa-cogs"></i> SYSTEM</h2>
+        <p style="color:#bbb; font-size:13px;">Use this to clear all tables and bills if the system gets stuck.</p>
+        <button class="reset-btn" onclick="resetSystem()">
+            <i class="fas fa-trash-alt"></i> RESET ALL
+        </button>
+    </div>
+
+        <div class="minimal-footer">
+        &copy; All Rights Reserved © 2026 Kaiten Sushi This website is created to fulfill the requirement of IMD318 Group Assignment.
+        </div>
+
+    <script>
+        const API_URL = 'api.php';
+
+        async function addSushi(name, price, type, img) {
+            document.getElementById('status').innerText = "Placing on belt...";
+            
+            await fetch(`${API_URL}?action=add_sushi`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ name, price, type, img })
+            });
+
+            document.getElementById('status').innerText = `Placed ${name} on belt!`;
+            setTimeout(() => document.getElementById('status').innerText = "Ready.", 2000);
+        }
+
+        async function refreshBills() {
+            try {
+                const res = await fetch(`${API_URL}?action=get_bills`);
+                const data = await res.json();
+                
+                // Group by Table
+                const tables = {};
+                data.forEach(item => {
+                    if (!item || !item.table) return; // Skip invalid entries
+                    
+                    let tid = item.table;
+                    // normalize table id to number
+                    if (typeof tid === 'string') {
+                        tid = tid.replace(/\D/g, ''); 
+                    }
+                    // fallback if still invalid
+                    if (!tid) tid = "Unknown";
+
+                    if(!tables[tid]) tables[tid] = [];
+                    tables[tid].push(item);
+                });
+
+                const container = document.getElementById('bills-container');
+                container.innerHTML = '';
+
+                // If empty
+                if (Object.keys(tables).length === 0) {
+                    container.innerHTML = '<div style="color:#555; text-align:center; padding-top:20px;">No active customers</div>';
+                    return;
+                }
+
+                // render bills
+                for (const [tableId, items] of Object.entries(tables)) {
+                    let total = 0;
+                    
+                    let html = `<div class="bill-card">
+                        <div class="bill-header">
+                            <span>TABLE 0${tableId}</span>
+                            <span>${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>`;
+                    
+                    items.forEach(i => {
+                        let price = parseFloat(i.price) || 0;
+                        total += price;
+                        html += `<div class="bill-item"><span>${i.name}</span><span>${price.toFixed(2)}</span></div>`;
+                    });
+
+                    html += `<div class="bill-total">TOTAL: RM ${total.toFixed(2)}</div></div>`;
+                    container.innerHTML += html;
+                }
+            } catch(e) {
+                console.log("Waiting for bills...", e);
+            }
+        }
+
+        // RESET FUNCTION
+        async function resetSystem() {
+            if(!confirm("⚠️ DANGER: This will kick all customers, clear all bills, and empty the sushi belt.\n\nAre you sure?")) return;
+            
+            await fetch(`${API_URL}?action=reset_all`);
+            alert("System has been fully reset.");
+            refreshBills(); // Refresh UI to show empty bills
+        }
+
+        setInterval(refreshBills, 2000); // Check bills every 2 seconds
+        refreshBills();
+    </script>
+</body>
+</html>

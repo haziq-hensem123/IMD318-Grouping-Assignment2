@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaiten Master | Entrance</title>
+    <link rel="icon" type="image/png" href="Img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;700&family=Cinzel:wght@400;700&display=swap');
+
+        :root {
+            --crimson: #c0392b; 
+            --gold: #d4af37;
+            --ink: #F5F5DC;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh; width: 100vw; overflow: hidden;
+            background: var(--ink); font-family: 'Cinzel', serif; color: rgb(255, 255, 255);
+            touch-action: manipulation; 
+        }
+
+        .video-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+        }
+        video {
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.5; filter: contrast(1.1) saturate(1.2);
+        }
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 90%);
+            z-index: 1;
+        }
+
+        .sun {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: clamp(280px, 40vw, 500px); height: clamp(280px, 40vw, 500px);
+            background: var(--crimson); border-radius: 50%; z-index: 2;
+            opacity: 0.85; mix-blend-mode: multiply;
+            box-shadow: 0 0 80px rgba(192, 57, 43, 0.6);
+            animation: pulse 5s infinite ease-in-out;
+        }
+
+        .vertical-text {
+            position: absolute; top: 50%; right: 10%; transform: translateY(-50%);
+            writing-mode: vertical-rl; font-family: 'Noto Serif JP', serif;
+            font-size: clamp(40px, 6vw, 80px); font-weight: 700;
+            color: rgba(255,255,255,0.15); z-index: 2; user-select: none;
+            letter-spacing: 1vh; pointer-events: none;
+        }
+
+        .center-stage {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 10; text-align: center; display: flex; flex-direction: column;
+            align-items: center; width: 90%;
+        }
+
+        .main-title {
+            font-size: clamp(50px, 10vw, 100px); font-weight: 700; letter-spacing: clamp(5px, 1vw, 15px);
+            text-transform: uppercase; text-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            border-bottom: 2px solid var(--crimson); padding-bottom: 20px; margin-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            font-family: 'Noto Serif JP', serif; font-size: clamp(12px, 3vw, 20px);
+            letter-spacing: 3px; text-transform: uppercase; color: #ddd; margin-bottom: 40px;
+        }
+
+        .enter-btn {
+            background: transparent; padding: 15px 40px;
+            border: 1px solid rgba(255,255,255,0.4); color: white;
+            font-family: 'Cinzel', serif; font-size: 16px; letter-spacing: 4px;
+            cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        }
+        .enter-btn::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 100%;
+            background: var(--crimson); transition: 0.3s ease; z-index: -1;
+        }
+        .enter-btn:hover::before { width: 100%; }
+        .enter-btn:hover { border-color: var(--crimson); box-shadow: 0 0 30px rgba(192, 57, 43, 0.5); }
+
+        #curtain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--ink); z-index: 9999;
+            transform: translateY(100%); transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+            display: flex; justify-content: center; align-items: center;
+        }
+        #curtain h1 {
+            color: rgb(0, 0, 0); font-family: 'Noto Serif JP'; letter-spacing: 5px;
+            opacity: 0; transition: 1s; font-size: clamp(24px, 5vw, 40px);
+        }
+
+        .chef-secret {
+            position: absolute; bottom: 20px; right: 20px;
+            color: rgba(255,255,255,0.2); font-size: 20px;
+            cursor: pointer; z-index: 50; transition: 0.5s;
+            padding: 10px;
+        }
+        .chef-secret:hover { color: var(--crimson); transform: rotate(90deg); }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        @media (max-width: 600px) {
+            .vertical-text { right: 5%; font-size: 40px; opacity: 0.3; }
+            .enter-btn { margin-top: 20px; padding: 12px 30px; font-size: 14px; }
+        }
+
+        .minimal-footer {
+    position: fixed;
+    bottom: 10px;
+    left: 15px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.582);
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    z-index: 999;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="curtain">
+        <h1>いらっしゃいませ</h1>
+        color: black;
+    </div>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="video\background.mp4" type="videos/mp4">
+        </video>
+        <div class="overlay"></div>
+    </div>
+
+    <div class="sun"></div>
+    <div class="vertical-text">回転寿司</div>
+
+    <div class="center-stage">
+        <h1 class="main-title">KAITEN</h1>
+        <div class="subtitle">Moving Sushi Towards Happiness</div>
+        
+        <button class="enter-btn" onclick="enterSite()">
+            ENTER
+        </button>
+    </div>
+
+    <div class="chef-secret" onclick="enterKitchen()" title="Chef Access Only">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <script>
+        function enterSite() {
+            const curtain = document.getElementById('curtain');
+            curtain.style.transform = "translateY(0%)";
+            setTimeout(() => {
+                curtain.querySelector('h1').style.opacity = 1;
+                setTimeout(() => {
+                    window.location.href = 'customer.html';
+                }, 1200); 
+            }, 600);
+        }
+
+        function enterKitchen() {
+            // password
+            const password = prompt("Chef's Gate: Enter Passcode");
+            if (password === "Butter889*") {
+                window.location.href = 'chef.html';
+            } else if (password !== null) {
+                alert("Access Denied.");
+            }
+        }
+    </script>
+<div class="minimal-footer">
+&copy; All Rights Reserved © 2025 Kaiten Sushi This website is created to fulfill the requirement of IMD318 Group Assignment.
+</div>
+</body>
+</html>

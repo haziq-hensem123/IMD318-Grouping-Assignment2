@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Kaiten Sushi</title>
+    <link rel="icon" type="image/png" href="Img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Poppins:wght@300;400;600&family=VT323&display=swap');
+
+        :root {
+            --wood-dark: #3e2723;
+            --wood-light: #8d6e63;
+            --indigo: #2c3e50;
+            --paper: #f5f5f5;
+            --accent: #800000;
+            --gold: #f1c40f;
+            --ribbon-height: 110px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #e0f7fa;
+            background-image: radial-gradient(circle, #34495e 2px, transparent 2.5px);
+            background-size: 30px 30px;
+            color: #333;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Noto Serif JP', serif; margin: 0; }
+
+        /* --- RIBBON HEADER --- */
+        header {
+            position: sticky; top: 0; width: 100%; height: var(--ribbon-height);
+            background-color: var(--accent);
+            border-bottom: 4px solid #5a1a15;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; box-sizing: border-box;
+            z-index: 1000; color: white;
+        }
+
+        .ribbon-left { flex: 1; display: flex; gap: 15px; align-items: center; }
+        
+        .nav-btn {
+            background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);
+            color: white; text-decoration: none; padding: 8px 20px;
+            border-radius: 4px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-btn:hover { background: white; color: var(--accent); }
+        .nav-btn.active { background: var(--gold); color: #222; border-color: var(--gold); }
+
+        .ribbon-center {
+            position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .logo-plaque {
+            background: #2c3e50; border: 2px solid var(--gold); border-top: none;
+            padding: 10px 40px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); text-align: center;
+        }
+        .brand-logo {
+            font-family: 'Noto Serif JP', serif; font-size: 20px; letter-spacing: 4px; color: white;
+            font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.5); white-space: nowrap;
+        }
+
+        .ribbon-right { flex: 1; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+        .clock-display { font-family: 'Poppins', monospace; font-size: 1.8rem; color: white; line-height: 1; }
+        .date-display { font-family: 'Poppins'; font-size: 0.8rem; opacity: 0.8; letter-spacing: 1px; color: white; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(62, 39, 35, 0.8)), 
+                        url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: scroll; 
+            height: 60vh; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            color: white; 
+            padding: 20px;
+            border-bottom: 10px solid var(--wood-dark);
+            position: relative;
+        }
+
+        .hero h1 { font-size: 4rem; color: white; margin-bottom: 10px; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .hero .highlight { color: var(--gold); }
+        .hero p { font-size: 1.2rem; max-width: 700px; opacity: 0.9; font-weight: 300; letter-spacing: 0.5px; }
+
+        /* --- CONTAINER --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; color: white; position: relative; display: inline-block; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .section-header h2::after { content: ''; display: block; width: 60%; height: 4px; background: var(--accent); margin: 15px auto 0; }
+        .section-header p { color: #bdc3c7; margin-top: 15px; font-style: italic; }
+
+        .story-card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .story-content h3 { color: var(--accent); font-size: 1.8rem; margin-bottom: 20px; }
+        .story-content p { margin-bottom: 20px; color: #444; text-align: justify; }
+        .quote-box {
+            border-left: 4px solid var(--gold); padding-left: 20px; margin-top: 30px;
+            font-family: 'Noto Serif JP'; font-style: italic; font-size: 1.1rem;
+            color: var(--wood-dark); background: rgba(241, 196, 15, 0.1); padding: 20px;
+        }
+        .image-frame { padding: 10px; background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transform: rotate(2deg); border: 1px solid #ddd; }
+        .image-frame img { width: 100%; display: block; }
+
+        .tech-strip {
+            background: var(--wood-dark); padding: 50px 0; overflow: hidden; position: relative;
+            border-top: 5px solid #222; border-bottom: 5px solid #222;
+            display: flex; align-items: center; margin: 60px 0;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+        
+        .belt-track-line {
+            position: absolute; top: 50%; left: 0; width: 100%; height: 160px;
+            background: #111; z-index: 1; transform: translateY(-50%);
+            border-top: 5px solid #444; border-bottom: 5px solid #444;
+        }
+
+        .scrolling-wrapper { 
+            display: flex; 
+            width: max-content; 
+            animation: scrollLeft 30s linear infinite; 
+            z-index: 2; 
+        }
+
+        .belt-set {
+            display: flex;
+            gap: 100px;
+            padding-right: 100px; 
+        }
+
+        @keyframes scrollLeft { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* --- PLATE STYLES --- */
+        .belt-plate {
+            width: 120px; height: 120px; background: #fff; border-radius: 50%;
+            border: 6px solid #ddd; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center; position: relative;
+            flex-shrink: 0;
+        }
+        
+        .belt-plate.blue { border-color: #1a252f; background: #f0f4f8; } 
+        .belt-plate.red { border-color: #800000; background: #fff5f5; } 
+        .belt-plate.gold { border-color: #f1c40f; background: linear-gradient(135deg, #fff 20%, #fff9c4 100%); box-shadow: 0 0 15px rgba(241, 196, 15, 0.4); }
+
+        .belt-plate img { width: 90px; height: 90px; object-fit: contain; }
+
+
+        /*team section*/
+        .team-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 30px; 
+            margin-top: 40px; 
+        }
+
+        .profile-card {
+            background: transparent;
+            border: 2px solid var(--gold); 
+            border-radius: 8px; 
+            overflow: hidden;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .profile-img { 
+            height: 250px; 
+            background: transparent; 
+            display: flex;
+            align-items: flex-end; 
+            justify-content: center;
+        }
+
+        .profile-img img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); 
+            transition: 0.3s;
+            transform-origin: bottom center;
+        }
+
+        .profile-card:hover .profile-img img {
+            transform: scale(1.1); 
+        }
+
+        .profile-card.large-subject .profile-img img {
+            transform: scale(1.3);
+        }
+        .profile-card.large-subject:hover .profile-img img {
+            transform: scale(1.4);
+        }
+
+        .profile-info { 
+            padding: 20px; 
+            text-align: center;
+            background: white;
+            border-top: 2px solid var(--gold); 
+            flex-grow: 1;
+        }
+
+        .profile-name { 
+            font-weight: bold; color: var(--wood-dark); font-size: 1.1rem; margin-bottom: 5px; 
+        }
+
+        .profile-role { 
+            color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: 600; 
+        }
+
+        .profile-bio { 
+            font-size: 0.85rem; color: #555; line-height: 1.4; 
+        }
+
+        .map-section {
+            background: white; border-radius: 8px; overflow: hidden; display: flex;
+            margin-top: 80px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .map-details { padding: 50px; flex: 1; background: #f9f9f9; }
+        .map-details h3 { font-size: 2rem; color: var(--wood-dark); margin-bottom: 20px; }
+        .detail-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; color: #555; }
+        .detail-row i { color: var(--accent); font-size: 1.2rem; width: 20px; text-align: center; }
+
+        .map-visual {
+            flex: 1; 
+            background: #2c3e50; 
+            position: relative; 
+            min-height: 400px;
+        }
+        
+        .map-visual iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #111; color: white; text-align: center; padding: 60px 20px;
+            border-top: 5px solid var(--wood-dark); margin-top: 80px;
+        }
+        .footer-logo { font-family: 'Noto Serif JP'; font-size: 2.5rem; color: var(--gold); letter-spacing: 5px; margin-bottom: 20px; }
+        .socials a { color: white; margin: 0 10px; font-size: 1.2rem; }
+
+        @media(max-width: 768px) {
+            .story-grid, .map-section { grid-template-columns: 1fr; flex-direction: column; }
+            .hero h1 { font-size: 2.5rem; }
+            .map-visual { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="ribbon-left">
+            <a href="index.html" class="nav-btn">System</a>
+            <a href="#" class="nav-btn active">About Us</a>
+        </div>
+        <div class="ribbon-center">
+            <div class="logo-plaque">
+                <div class="brand-logo">KAITEN SUSHI</div>
+            </div>
+        </div>
+        <div class="ribbon-right">
+            <div class="clock-display" id="clock-time">00:00</div>
+            <div class="date-display" id="clock-date">--/--</div>
+        </div>
+    </header>
+
+    <header class="hero">
+        <h1>Tradition in <span class="highlight">Motion</span></h1>
+        <p>Where centuries-old culinary art meets precision loop algorithms.</p>
+    </header>
+
+    <section class="container">
+        <div class="section-header">
+            <h2>The Kaiten Philosophy</h2>
+            <p>More than just a restaurant. It's a calculated performance.</p>
+        </div>
+
+        <div class="story-card">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h3>Synchronization is Key</h3>
+                    <p>
+                        Founded in Sarawak in 2024, Kaiten Sushi was built on a simple yet complex premise: 
+                        Sushi tastes best when it arrives at the exact moment of craving. 
+                    </p>
+                    <p>
+                        We realized that traditional conveyor belts were dull. So we created a system that ensures every plate arrives fresh and perfectly timed and a kiosk to manage it all.
+                    </p>
+                    <div class="quote-box">
+                        "We don't just serve fish. We serve them with style."
+                    </div>
+                </div>
+                <div class="image-frame">
+                    <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1000&auto=format&fit=crop" alt="Sushi Chef">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="tech-strip">
+        <div class="belt-track-line"></div>
+        <div class="scrolling-wrapper">
+            
+            <div class="belt-set">
+                <div class="belt-plate blue"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi2.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi3.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi4.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi2.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi3.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi4.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi2.png" alt="Sushi"></div>
+            </div>
+
+            <div class="belt-set">
+                <div class="belt-plate blue"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi2.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi3.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi4.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi2.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi3.png" alt="Sushi"></div>
+                <div class="belt-plate gold"><img src="Img/sushi4.png" alt="Sushi"></div>
+                <div class="belt-plate red"><img src="Img/sushi1.png" alt="Sushi"></div>
+                <div class="belt-plate blue"><img src="Img/sushi2.png" alt="Sushi"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <section class="container">
+        <div class="section-header">
+            <h2>The Visionaries</h2>
+            <p>The minds behind the loop.</p>
+        </div>
+
+        <div class="team-grid">
+            
+            <div class="profile-card large-subject">
+                <div class="profile-img"><img src="us/haziq.png"></div>
+                <div class="profile-info">
+                    <div class="profile-name">Muhammad Haziq bin Midun</div>
+                    <div class="profile-role">Founder & CEO</div>
+                    <div class="profile-bio">"I wanted to solve the latency between hunger and satisfaction."</div>
+                </div>
+            </div>
+
+            <div class="profile-card large-subject">
+                <div class="profile-img"><img src="us/well.png"></div>
+                <div class="profile-info">
+                    <div class="profile-name">Wellence Lisa Edmund</div>
+                    <div class="profile-role">Systems Architect</div>
+                    <div class="profile-bio">Mastermind of the 30-second loop. He ensures fairness for Table 6.</div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-img"><img src="us/brenda.png"></div>
+                <div class="profile-info">
+                    <div class="profile-name">Brenda Joseph Korop</div>
+                    <div class="profile-role">Executive Chef</div>
+                    <div class="profile-bio">15 years of knife skills. Directs the kitchen flow with millimeter precision.</div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-img"><img src="us/amanda.png"></div>
+                <div class="profile-info">
+                    <div class="profile-name">Amanda Rosaria Mae Sylvester</div>
+                    <div class="profile-role">Director of Experience</div>
+                    <div class="profile-bio">Curates the ambiance, lighting, and plate velocity for maximum comfort.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="map-section">
+            <div class="map-details">
+                <h3>Headquarters</h3>
+                <div class="detail-row"><i class="fas fa-map-marker-alt"></i> <strong>Block 5 Seri Mulu</strong></div>
+                <div class="detail-row"><i class="fas fa-building"></i> Federal Cat Investigation Center</div>
+                <div class="detail-row"><i class="fas fa-globe-asia"></i> Sarawak, Malaysia</div>
+                <br>
+                <div class="detail-row"><i class="fas fa-envelope"></i> corporate@kaiten-sushi.my</div>
+                <div class="detail-row"><i class="fas fa-phone"></i> +60 82-555-0199</div>
+            </div>
+            <div class="map-visual">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d1568.5234705341138!2d110.44667187697108!3d1.453299277009904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sUiTM%20Sarawak!5e0!3m2!1sen!2smy!4v1768122102556!5m2!1sen!2smy" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">KAITEN SUSHI</div>
+        <p class="footer-address">Block 5 Seri Mulu, Federal Cat Investigation, Sarawak</p>
+        <div class="socials">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 30px;">
+            All rights reserved© 2026 Kaiten Sushi. This website is created to fulfill the requirement of IMD318 Group Assignment. <br>
+            <span style="font-size: 0.7rem;">System Status: <span style="color:#2ecc71">ONLINE</span></span>
+        </p>
+    </footer>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false, timeZone: 'Asia/Kuching' });
+            const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kuching' });
+            
+            document.getElementById('clock-time').innerText = timeStr;
+            document.getElementById('clock-date').innerText = dateStr.toUpperCase();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+</body>
+</html>

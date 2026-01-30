@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaiten Sushi | Customer</title>
+    <link rel="icon" type="image/png" href="Img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Poppins:wght@300;400;600&family=VT323&display=swap');
+
+        :root {
+            --wood-dark: #3e2723;
+            --wood-light: #8d6e63;
+            --indigo: #2c3e50;
+            --paper: #f5f5f5;
+            --accent: #cc1c1c;
+            --gold: #f1c40f;
+            --ribbon-height: 110px;
+        }
+
+body {
+    margin: 0; 
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden; 
+    height: 100vh;
+    
+    background-color: #F5F5DC; 
+    
+    background-image: 
+        radial-gradient(circle at 100% 150%, #4fc3f7 24%, #b3e5fc 25%, #4fc3f7 28%, #b3e5fc 29%, #4fc3f7 36%, #b3e5fc 36%, #4fc3f7 40%, transparent 40%, transparent),
+        radial-gradient(circle at 0 150%,    #4fc3f7 24%, #b3e5fc 25%, #4fc3f7 28%, #b3e5fc 29%, #4fc3f7 36%, #b3e5fc 36%, #4fc3f7 40%, transparent 40%, transparent);
+        
+    background-size: 100px 50px;
+}
+
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--ribbon-height);
+            background-color: var(--accent);
+            border-bottom: 4px solid #5a1a15;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px; box-sizing: border-box;
+            z-index: 100; color: white;
+        }
+
+        .ribbon-left-container {
+            flex: 1; display: flex; flex-direction: column; 
+            margin-right: 320px; background: #fff; border-radius: 6px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3); overflow: hidden;
+            height: 80px; border-left: 5px solid var(--gold);
+        }
+
+        .text-ticker-wrap {
+            height: 30px; background: white; border-bottom: 1px solid #eee;
+            overflow: hidden; display: flex; align-items: center; position: relative;
+        }
+        .text-track { display: flex; white-space: nowrap; animation: scroll-left 25s linear infinite; }
+        .ticker-item {
+            color: #333; font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 700; font-size: 12px; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-right: 50px; display: flex; align-items: center; gap: 8px;
+        }
+        .ticker-item i { color: var(--accent); }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .slideshow-wrap { height: 50px; width: 100%; background: #222; overflow: hidden; position: relative; }
+        .slideshow-track { display: flex; height: 100%; width: 100%; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .slide-item { min-width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
+
+        .ribbon-center-hub {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            display: flex; flex-direction: column; align-items: center;
+            height: 100%; z-index: 20; pointer-events: none;
+        }
+        .ribbon-center-hub > * { pointer-events: auto; }
+
+        .logo-plaque {
+            background: #2c3e50; border: 2px solid var(--gold); border-top: none;
+            padding: 5px 30px 10px 30px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4); text-align: center;
+            margin-bottom: -10px; display: flex; flex-direction: column; align-items: center;
+        }
+        .brand-logo {
+            font-family: 'Noto Serif JP', serif; font-size: 16px; letter-spacing: 4px; color: white;
+            font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.5); white-space: nowrap; margin-bottom: 2px;
+        }
+
+        .nav-row { display: flex; align-items: center; gap: 20px; }
+        .nav-link {
+            color: #bdc3c7; text-decoration: none; font-family: 'Poppins'; font-size: 11px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+        }
+        .nav-link:hover { color: var(--gold); }
+
+        .menu-seal-btn {
+            width: 95px; height: 95px; background: #800000; border: 3px solid var(--gold);
+            border-radius: 50%; color: white; font-family: 'Noto Serif JP'; font-weight: 700; font-size: 14px;
+            cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6); transition: 0.3s; pointer-events: auto;
+            position: relative; z-index: 2; margin-top: -12px;
+        }
+        .menu-seal-btn span { font-size: 8px; font-weight: 400; font-family: 'Poppins'; color: #f1c40f; }
+        .menu-seal-btn:hover { background: var(--gold); color: #222; transform: scale(1.1); }
+        .menu-seal-btn:hover span { color: #222; }
+
+        .ribbon-right { display: flex; gap: 15px; flex: 1; justify-content: flex-end; align-items: center; }
+        .bill-info { text-align: right; }
+        
+        .bill-datetime {
+            font-family: 'Poppins', sans-serif;
+            color: var(--white);
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+            text-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+        }
+
+        .bill-table-no { font-size: 10px; opacity: 0.8; letter-spacing: 1px; font-family: 'Poppins'; }
+        .bill-amount { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 20px; color: white; }
+
+        .action-btn {
+            padding: 8px 15px; border: 1px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.3);
+            color: white; font-family: 'Poppins'; font-size: 11px; font-weight: 600; cursor: pointer;
+            border-radius: 4px; transition: 0.2s;
+        }
+        .action-btn:hover { background: white; color: var(--accent); }
+
+        .staff-btn {
+            background: #b71c1c; border: 2px solid #e57373; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-size: 16px; color: white; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4); transition: 0.2s;
+        }
+        .staff-btn:hover { background: #e53935; transform: scale(1.1); }
+
+        #table-overlay, #about-modal, #checkout-screen, #confirm-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; display: flex; justify-content: center; align-items: center;
+        }
+        #table-overlay { background: rgba(0,0,0,0.95); flex-direction: column; }
+        #about-modal { background: rgba(0,0,0,0.8); display: none; }
+        #checkout-screen { background: rgba(0,0,0,0.9); display: none; flex-direction: column; z-index: 5000; }
+        #confirm-modal { background: rgba(0,0,0,0.9); display: none; z-index: 6000; }
+
+        /* CONFIRM CARD */
+        .confirm-card {
+            background: #fff; padding: 30px; text-align: center; border: 2px solid var(--accent);
+            width: 300px; font-family: 'Poppins';
+        }
+        .confirm-btn-group { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
+        .c-btn { padding: 10px 20px; cursor: pointer; border: none; font-weight: bold; }
+        .c-yes { background: var(--accent); color: white; }
+        .c-no { background: #ccc; color: #333; }
+
+        .noren-curtain { display: flex; gap: 10px; margin-bottom: 30px; }
+        .noren-panel {
+            width: 80px; height: 120px; background: #0288d1; color: white;
+            font-family: 'Noto Serif JP', serif; font-size: 40px;
+            display: flex; justify-content: center; align-items: center; border-bottom: 5px solid white;
+        }
+        .table-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .table-btn {
+            padding: 20px 40px; border: 2px solid #555; background: #222; color: white;
+            font-family: 'Noto Serif JP'; font-size: 18px; cursor: pointer; transition: 0.3s;
+        }
+        .table-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .table-btn.occupied { opacity: 0.3; cursor: not-allowed; border-color: #333; background: #111; color: #555; }
+
+        .about-card {
+            background: #fff; width: 400px; padding: 40px;
+            text-align: center; border-top: 5px solid var(--accent);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .scene {
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+            perspective: 1000px;
+        }
+        .counter-top {
+            width: 110%; height: 350px; background: #5d4037;
+            transform: rotateX(25deg) translateY(100px);
+            border-top: 15px solid #3e2723;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            position: relative; overflow: hidden; display: flex; align-items: center;
+        }
+        .belt-track {
+            width: 100%; height: 180px; background: #222;
+            display: flex; align-items: center;
+            border-top: 5px solid #111; border-bottom: 5px solid #111;
+            position: relative;
+        }
+        .plate-wrapper {
+            position: absolute; width: 140px; height: 140px;
+            left: 110%; cursor: pointer; transition: transform 0.2s;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .plate-wrapper:active { transform: scale(0.95); }
+        .plate {
+            width: 110px; height: 110px; background: #fff; border-radius: 50%;
+            border: 6px solid #ddd; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center; position: relative;
+        }
+        .plate img { width: 85px; height: 85px; object-fit: contain; pointer-events: none; }
+        .plate-tag {
+            background: rgba(0,0,0,0.8); color: white; padding: 2px 10px;
+            border-radius: 10px; font-size: 12px; margin-top: 10px;
+            font-family: 'Poppins'; opacity: 0.8;
+        }
+        .plate.blue { border-color: #3498db; } .plate.red { border-color: #e74c3c; } .plate.gold { border-color: #f1c40f; background: #fffae6; }
+        .grabbed { animation: liftOff 0.6s forwards; pointer-events: none; }
+        @keyframes liftOff {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-150px) scale(1.4) rotateX(-20deg); opacity: 1; }
+            100% { transform: translateY(500px) scale(0.5); opacity: 0; }
+        }
+
+        .printer-slot {
+            width: 320px; height: 20px; background: #111;
+            border-radius: 10px; position: relative; z-index: 2;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        }
+        .receipt-paper {
+            width: 300px; background: #fff; padding: 0 20px; font-family: 'VT323', monospace; font-size: 20px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2); transform-origin: top; height: 0px; overflow: hidden;
+            transition: none;
+        }
+        .receipt-content { padding: 20px 0; }
+        .receipt-line { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .dashed { border-bottom: 2px dashed #000; margin: 10px 0; }
+
+        /* =========================================
+          UI SELAIN DARIPADA LAPTOP
+           ========================================= */
+
+        /* tablet */
+        @media (max-width: 1024px) {
+            .ribbon-left-container {
+                margin-right: 180px;
+            }
+            .nav-link { font-size: 9px; }
+            .logo-plaque { padding: 5px 15px; }
+        }
+        @media (max-width: 768px) {
+            :root {
+                --ribbon-height: 100px; /* Increased height for stacked layout */
+            }
+
+            /* 1. promo ticker*/
+            .ribbon-left-container {
+                display: block !important;
+                position: absolute;
+                top: 0; left: 0; right: 0;
+                height: 25px; /* Thin top bar */
+                margin: 0;
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+                background: white;
+                z-index: 10;
+            }
+            /* Hide the large slideshow images, keep only the text */
+            .slideshow-wrap { display: none; }
+            .text-ticker-wrap { height: 25px; border: none; }
+            .ticker-item { font-size: 10px; } /* Smaller text */
+
+            /* 2. HEADER ADJUSTMENTS (Push content down below ticker) */
+            header {
+                padding-top: 25px; /* Push red ribbon content down */
+                align-items: flex-start;
+            }
+
+            /* 3. CENTER HUB (Logo & Menu) */
+            .ribbon-center-hub {
+                position: absolute;
+                left: 0; top: 25px; /* Below ticker */
+                width: 100%; height: auto;
+                transform: none;
+                flex-direction: row; /* Horizontal alignment */
+                align-items: flex-start;
+                justify-content: flex-start;
+                pointer-events: none; /* Pass clicks */
+            }
+
+            .logo-plaque {
+                border-radius: 0 0 10px 0;
+                padding: 5px 15px;
+                background: rgba(0,0,0,0.1);
+                border: none;
+                box-shadow: none;
+                pointer-events: auto;
+            }
+            .brand-logo { font-size: 14px; letter-spacing: 1px; }
+            .nav-row { display: none; } /* Hide extra links */
+
+            /* 4. menu button ni boss (yang dekat mobile*/
+            .menu-seal-btn {
+                position: absolute;
+                left: 120px; /* pigi bawah or atas for menu log */
+                top: 45px; /* Pushes it down relative to hub top */
+                width: 90px; height: 90px;
+                margin: 0;
+                pointer-events: auto;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+                z-index: 200;
+            }
+
+            /* 5. right side bill button (MOBILE AH BUKAN LAPTOP)*/
+            .ribbon-right {
+                position: absolute;
+                right: 10px; top: 60px;
+                transform: translateY(-50%);
+                gap: 8px;
+            }
+            .bill-amount { font-size: 16px; }
+            .action-btn span { display: none; }
+            .action-btn { padding: 8px; }
+
+            /* 6. SCENE & TABLE */
+            .counter-top { width: 150%; height: 260px; }
+            .plate { width: 90px; height: 90px; }
+            .plate img { width: 70px; height: 70px; }
+            .table-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .noren-panel { width: 40px; font-size: 24px; }
+        }
+
+        .minimal-footer {
+    position: fixed;
+    bottom: 10px;
+    left: 15px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.25);
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    z-index: 999;
+    pointer-events: none; 
+    text-transform: uppercase;
+}
+    </style>
+</head>
+<body>
+
+    <div id="about-modal">
+        <div class="about-card" onclick="event.stopPropagation()">
+            <h2 style="font-family:'Noto Serif JP'; margin-top:0; color:var(--accent)">KAITEN SUSHI</h2>
+            <p>Welcome to the ultimate virtual dining experience.</p>
+            <button onclick="document.getElementById('about-modal').style.display='none'" style="margin-top:20px; padding:10px 20px; cursor:pointer; background: #222; color:white; border:none;">CLOSE</button>
+        </div>
+    </div>
+
+    <div id="confirm-modal">
+        <div class="confirm-card">
+            <h2 style="margin-top:0; color:var(--accent)">REQUEST BILL</h2>
+            <p>Do you want to pay now?</p>
+            <div class="confirm-btn-group">
+                <button class="c-btn c-yes" onclick="processPayment()">YES, PAY</button>
+                <button class="c-btn c-no" onclick="document.getElementById('confirm-modal').style.display='none'">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="table-overlay">
+        <div class="noren-curtain">
+            <div class="noren-panel">い</div>
+            <div class="noren-panel">ら</div>
+            <div class="noren-panel">っ</div>
+            <div class="noren-panel">し</div>
+            <div class="noren-panel">ゃ</div>
+            <div class="noren-panel">い</div>
+        </div>
+        <h2 style="color:rgb(186, 162, 162); font-family:'Poppins'; letter-spacing:2px; margin-bottom:20px">SELECT TABLE</h2>
+        <div class="table-grid" id="table-grid"></div>
+    </div>
+
+    <header>
+        <div class="ribbon-left-container">
+            <div class="text-ticker-wrap">
+                <div class="text-track">
+                    <span class="ticker-item"><i class="fas fa-bullhorn"></i> 50% OFF SALMON</span>
+                    <span class="ticker-item"><i class="fas fa-fire"></i> NEW: SPICY TUNA</span>
+                    <span class="ticker-item"><i class="fas fa-beer"></i> HAPPY HOUR 2-5PM</span>
+                    <span class="ticker-item"><i class="fas fa-star"></i> PREMIUM WAGYU</span>
+                </div>
+            </div>
+            <div class="slideshow-wrap">
+                <div class="slideshow-track" id="slideTrack">
+                    <img class="slide-item" src="Img/promo1.png" alt="Promo">
+                    <img class="slide-item" src="Img/promo2.png" alt="Promo">
+                    <img class="slide-item" src="Img/promo4.png" alt="Promo">
+                </div>
+            </div>
+        </div>
+
+<div class="ribbon-center-hub">
+            <div class="logo-plaque">
+                <div class="brand-logo">KAITEN SUSHI</div>
+                <div class="nav-row">
+                    <a href="about_us.html" class="nav-link">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                    
+                    <div style="width: 50px;"></div> 
+                    
+                    <a href="offers.html" class="nav-link">
+                        Offers <i class="fas fa-tag"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <button class="menu-seal-btn" onclick="window.location.href='menu.html'" style="margin-top: -12px;">
+                MENU <span>OPEN</span>
+            </button>
+        </div>
+
+        <div class="ribbon-right">
+            <div class="bill-info">
+                <div class="bill-datetime" id="datetime-display">LOADING...</div>
+                <div class="bill-table-no" id="table-display">TABLE --</div>
+                <div class="bill-amount">RM <span id="current-total">0.00</span></div>
+            </div>
+            <button class="action-btn" onclick="askCheck()">
+                <i class="fas fa-receipt"></i> <span>BILL</span>
+            </button>
+            <button class="staff-btn" onclick="callStaff()" title="Call Staff">
+                <i class="fas fa-bell"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="scene">
+        <div class="counter-top">
+            <div class="belt-track" id="belt"></div>
+        </div>
+    </div>
+
+    <div id="checkout-screen">
+        <div class="printer-slot"></div>
+        <div class="receipt-paper" id="receipt">
+            <div class="receipt-content" id="receipt-body"></div>
+        </div>
+        <button onclick="leaveRestaurant()" id="new-cust-btn" style="margin-top:20px; padding:10px 30px; background:white; border:none; cursor:pointer; opacity:0; transition:1s; font-weight:bold;">LEAVE RESTAURANT</button>
+    </div>
+
+    <footer>
+        <div style="font-family:'Noto Serif JP'; font-size:2rem; color:var(--gold); margin-bottom:10px;">KAITEN SUSHI</div>
+        <p>Block 5 Seri Mulu, Federal Cat Investigation, Sarawak</p>
+        <br>
+        <p style="opacity:0.5">&copy;  All rights reserved© 2026 Kaiten Sushi Experience.This website is created to fulfill the requirement of IMD318 Group Assignment. <br></p>
+    </footer>
+
+<script>
+        const API_URL = 'api.php';
+        let currentTable = null;
+        let cart = [];
+        
+        // --- TRACKING LISTS ---
+        let spawnedIds = [];      // IDs currently on screen or processed
+        let incomingQueue = [];   // STEP 1: Waiting for TIME (Travel delay)
+        let spawnQueue = [];      // STEP 2: Waiting for SPACE (Visual gap)
+
+        let pollingInterval = null;
+        let tablePoller = null;
+        let queueTimer = null;
+
+        function init() {
+            startClock(); 
+
+            // 1. Slideshow
+            let currentSlide = 0;
+            const slideTrack = document.getElementById('slideTrack');
+            const slides = document.querySelectorAll('.slide-item');
+            if(slides.length > 0) {
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slideTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }, 4500);
+            }
+
+            // 2. CHECK SESSION & URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlTable = urlParams.get('table'); 
+            const sessTable = sessionStorage.getItem('kaiten_active_table');
+
+            let targetId = null;
+
+            if (urlTable && urlTable !== "undefined" && urlTable !== "null") {
+                const digits = urlTable.replace(/\D/g, ''); 
+                if (digits.length > 0) targetId = digits;
+            }
+
+            if (!targetId && sessTable) {
+                const digits = sessTable.replace(/\D/g, '');
+                if (digits.length > 0) targetId = digits;
+            }
+
+            if (targetId) {
+                restoreSession(targetId);
+            } else {
+                tablePoller = setInterval(loadTables, 1000);
+                loadTables();
+            }
+
+            queueTimer = setInterval(manageQueues, 100);
+        }
+
+        function startClock() {
+            const el = document.getElementById('datetime-display');
+            setInterval(() => {
+                const now = new Date();
+                const str = now.toLocaleString('en-GB', { 
+                    day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' 
+                });
+                el.innerText = str.replace(',', ''); 
+            }, 1000);
+        }
+
+        function restoreSession(id) {
+            currentTable = id;
+            sessionStorage.setItem('kaiten_active_table', 'Table-' + id);
+            
+            document.getElementById('table-overlay').style.display = 'none';
+            document.getElementById('table-display').innerText = `TABLE 0${id}`;
+            
+            const savedCart = sessionStorage.getItem('kaiten_cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                document.getElementById('current-total').innerText = cart.reduce((a,b)=>a+b.price,0).toFixed(2);
+            }
+
+            if(pollingInterval) clearInterval(pollingInterval);
+            pollingInterval = setInterval(syncBelt, 1000);
+        }
+
+     async function loadTables() {
+    if(currentTable) return;
+    
+    // We are simulating the server response here
+    const grid = document.getElementById('table-grid');
+    grid.innerHTML = '';
+    
+    for(let i=1; i<=6; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'table-btn';
+        
+        // Let's pretend Table 3 is occupied to show off the styling
+        if (i === 3) {
+            btn.innerText = `TABLE 0${i} (Busy)`;
+            btn.classList.add('occupied');
+            btn.disabled = true; 
+        } else {
+            btn.innerText = `TABLE 0${i}`;
+            // Directly set the session instead of asking PHP
+            btn.onclick = () => {
+                sessionStorage.setItem('kaiten_active_table', 'Table-' + i);
+                clearInterval(tablePoller);
+                restoreSession(i); 
+            };
+        }
+        grid.appendChild(btn);
+    }
+}
+
+        async function tryBookTable(id) {
+            const res = await fetch(`${API_URL}?action=occupy_table`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ table: id })
+            });
+            const result = await res.json();
+
+            if (result.status === 'success') {
+                clearInterval(tablePoller);
+                sessionStorage.setItem('kaiten_active_table', 'Table-' + id);
+                restoreSession(id); 
+            } else {
+                alert("Table just taken!");
+                loadTables();
+            }
+        }
+
+function syncBelt() {
+    if(!currentTable) return;
+    
+    // Create random sushi locally
+    if(Math.random() > 0.7) { // 30% chance to spawn sushi every second
+        const sushiTypes = [
+            {id: Date.now(), name: 'Salmon', price: 4.00, img: 'Img/sushi1.png', type: 'red'},
+            {id: Date.now()+1, name: 'Tuna', price: 6.00, img: 'Img/sushi2.png', type: 'blue'},
+            {id: Date.now()+2, name: 'Tamago', price: 2.00, img: 'Img/sushi3.png', type: 'gold'}
+        ];
+        const randomSushi = sushiTypes[Math.floor(Math.random() * sushiTypes.length)];
+        
+        // Add to spawn queue directly
+        spawnQueue.push(randomSushi);
+    }
+}
+
+        // manager functions for sushi
+        function manageQueues() {
+            const now = Date.now();
+
+            for (let i = incomingQueue.length - 1; i >= 0; i--) {
+                if (now >= incomingQueue[i].arrival) {
+                    const readyPlate = incomingQueue[i].data;
+                    spawnQueue.push(readyPlate);
+                    incomingQueue.splice(i, 1); 
+                }
+            }
+
+            // sushi spawn queue
+            if (spawnQueue.length > 0) {
+                const lastId = spawnedIds[spawnedIds.length - 1];
+                const lastEl = document.getElementById('plate-' + lastId);
+
+                let canSpawn = false;
+
+                if (!lastEl) {
+                    
+                    canSpawn = true;
+                } else {
+                   
+                    const rect = lastEl.getBoundingClientRect();
+                    const startPoint = window.innerWidth * 1.1; // Spawn point
+                    
+                    // Allow spawn if gap > 80px
+                    if ((startPoint - rect.right) > 80) {
+                        canSpawn = true;
+                    }
+                }
+
+                if (canSpawn) {
+                    const plateToSpawn = spawnQueue.shift(); // Take first in line
+                    spawnedIds.push(plateToSpawn.id);        // Mark as on-screen
+                    spawnPlate(plateToSpawn);
+                }
+            }
+        }
+
+        function spawnPlate(data) {
+            const track = document.getElementById('belt');
+            const wrap = document.createElement('div');
+            wrap.className = 'plate-wrapper';
+            wrap.id = `plate-${data.id}`;
+            wrap.innerHTML = `<div class="plate ${data.type}"><img src="${data.img}"></div><div class="plate-tag">${data.name}</div>`;
+            track.appendChild(wrap);
+            
+            // looping plate
+            const anim = wrap.animate(
+                [{ left: '110%' }, { left: '-20%' }], 
+                { duration: 20000, easing: 'linear', iterations: Infinity }
+            );
+
+            wrap.onmousedown = () => eatSushi(data, wrap, anim);
+        }
+
+        async function eatSushi(data, el, anim) {
+            anim.pause(); 
+            el.classList.add('grabbed');
+            
+            const res = await fetch(`${API_URL}?action=eat_sushi`, {
+                method: 'POST', body: JSON.stringify({ id: data.id, table: currentTable })
+            });
+            const result = await res.json();
+            
+            if (result.status === 'success') {
+                cart.push(data);
+                sessionStorage.setItem('kaiten_cart', JSON.stringify(cart));
+                document.getElementById('current-total').innerText = cart.reduce((a,b)=>a+b.price,0).toFixed(2);
+                setTimeout(() => el.remove(), 500);
+            } else {
+                alert("Missed it!"); 
+                el.remove();
+            }
+        }
+
+        // --- CHECKOUT ---
+        function askCheck() {
+            if(cart.length === 0) return alert("Nothing to pay!");
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function processPayment() {
+            document.getElementById('confirm-modal').style.display = 'none';
+            document.getElementById('checkout-screen').style.display = 'flex';
+            
+            let total = 0;
+            let html = cart.map(i => { 
+                total += i.price; 
+                return `<div class="receipt-line"><span>${i.name}</span><span>${i.price.toFixed(2)}</span></div>`; 
+            }).join('');
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB'); 
+            const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const checkId = Math.floor(Math.random() * 89999) + 10000; 
+
+            document.getElementById('receipt-body').innerHTML = `
+                <div style="text-align:center; margin-bottom:10px; filter: grayscale(100%); opacity:0.8;">
+                    <img src="Img/logo.png" style="width:60px; height:auto;">
+                </div>
+                <center style="font-size:24px; font-weight:bold; letter-spacing: -1px; margin-bottom:5px;">KAITEN SUSHI</center>
+                <center style="font-size:14px; text-transform: uppercase;">Block 5 Seri Mulu, Federal Cat Investigation, Sarawak </center>
+                <center style="font-size:14px;">Tel: 014 589 7777</center>
+                <div class="dashed"></div>
+                <div class="receipt-line" style="font-size:16px;"><span>DATE: ${dateStr}</span> <span>TIME: ${timeStr}</span></div>
+                <div class="receipt-line" style="font-size:16px;"><span>TABLE: 0${currentTable}</span> <span>CHK: #${checkId}</span></div>
+                <div class="dashed"></div>
+                <div style="margin: 10px 0;">${html}</div>
+                <div class="dashed"></div>
+                <div class="receipt-line" style="font-size:24px; font-weight:bold; margin-top:10px;">
+                    <span>TOTAL</span><span>RM ${total.toFixed(2)}</span>
+                </div>
+                <div class="receipt-line" style="font-size:14px; color:#555;">
+                    <span>TAX (6%) INCL.</span><span>RM ${(total * 0.06).toFixed(2)}</span>
+                </div>
+                <br><br>
+                <center style="font-size:14px;">*** Thank You For Dining ***</center>
+                <center style="font-size:14px;">Please come again!</center>
+                <center style="margin-top:15px; font-size:40px;">
+                    <i class="fas fa-barcode"></i>
+                </center>
+            `;
+            
+            printReceipt();
+        }
+
+        function printReceipt() {
+            const paper = document.getElementById('receipt');
+            const targetHeight = document.getElementById('receipt-body').scrollHeight;
+            let currentHeight = 0;
+            function step() {
+                if (currentHeight >= targetHeight) { document.getElementById('new-cust-btn').style.opacity = 1; return; }
+                currentHeight += 20; 
+                paper.style.height = currentHeight + "px"; 
+                setTimeout(step, 150);
+            }
+            step();
+        }
+
+        async function leaveRestaurant() {
+            if (!currentTable) {
+                window.location.href = 'index.html';
+                return;
+            }
+            sessionStorage.removeItem('kaiten_active_table');
+            sessionStorage.removeItem('kaiten_cart');
+
+            try {
+                await fetch(`${API_URL}?action=free_table&table=${currentTable}`);
+                await fetch(`${API_URL}?action=clear_bill&table=${currentTable}`);
+            } catch (error) {
+                console.error("Error freeing table:", error);
+            }
+            window.location.href = 'index.html';
+        }
+
+        function callStaff() { alert("Staff notified!"); }
+
+        window.onload = init;
+    </script>
+
+    <div class="minimal-footer">
+    &copy; All Rights Reserved © 2026 Kaiten Sushi This website is created to fulfill the requirement of IMD318 Group Assignment.
+</div>
+</body>
+</html>
